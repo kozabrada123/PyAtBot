@@ -22,7 +22,7 @@ async def on_ready():
     print_out("Starting..", colorama.Fore.MAGENTA)
     status = "Starting.."
 
-    await bot.change_presence(activity=discord.Activity(name=status,type=discord.ActivityType.custom))
+    await bot.change_presence(activity=discord.Activity(name=status,type=discord.ActivityType.watching))
 
     atapi.connect_account()
 
@@ -86,7 +86,7 @@ async def updateStatus():
         text = f"| {atapi.get_status()} | " \
                f"at.help"
 
-    activity = discord.Activity(type=discord.ActivityType.custom, name=text)
+    activity = discord.Activity(type=discord.ActivityType.watching, name=text)
     await bot.change_presence(activity=activity)
 
 

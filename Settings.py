@@ -3,9 +3,9 @@ from selenium import webdriver
 
 #General required settings
 
-Token = ****
-Username = ****
-Password =  ****
+Token = "ODc1NzM2MzE4NjE1ODc5NzQw.YRZ3AA.m53PfoKgJKoxWsa7w1m1b1m7GXM"
+Username = "AtBot"
+Password =  "koza1brada"
 
 #Discord settings
 prefix = "at."

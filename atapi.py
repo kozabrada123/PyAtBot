@@ -37,12 +37,12 @@ def connect_account():
     driver.implicitly_wait(2)
 
     try:
-        cwait = WebDriverWait(driver, 5)
-        cwait.until(EC.element_to_be_clickable((By.ID, "accept-choices"))).click()
+        wait.until(EC.presence_of_element_located((By.ID, "accept-choices"))).click()
         print_out("Accepted cookies..", colorama.Fore.CYAN)
     except:
         print_out("Skipped cookies..", colorama.Fore.CYAN)
 
+    driver.implicitly_wait(2)
 
     #serverelement = wait.until(EC.element_to_be_clickable((By.CLASS_NAME, "server-body"))).click()
     #/html/body/div[1]/main/section/div[1]/div[2]/div/div[1]
