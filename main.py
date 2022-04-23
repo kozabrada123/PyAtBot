@@ -74,7 +74,7 @@ async def helpcommand(ctx):
 
 # T A S K S
 
-@tasks.loop(seconds=10.0)
+@tasks.loop(seconds=30.0)
 async def updateStatus():
     server_status = atapi.get_status()
     if server_status == "Online":

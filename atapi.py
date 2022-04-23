@@ -1,6 +1,6 @@
 import datetime
 
-from selenium import webdriver
+import undetected_chromedriver as webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -37,7 +37,7 @@ def connect_account():
     driver.implicitly_wait(2)
 
     try:
-        wait.until(EC.presence_of_element_located((By.ID, "accept-choices"))).click()
+        wait.until(EC.element_to_be_clickable((By.ID, "accept-choices"))).click()
         print_out("Accepted cookies..", colorama.Fore.CYAN)
     except:
         print_out("Skipped cookies..", colorama.Fore.CYAN)
