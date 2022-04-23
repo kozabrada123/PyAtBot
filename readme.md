@@ -30,6 +30,7 @@ A Discord Bot that can manage an Aternos serverr.
 
 ## Prerequisites
 
+* Working undetected chromedriver, install [this](https://github.com/ArevomEisvolk/undetected-chromedriver) for arm using pip3 install .
 * A working install of python
 * An Aternos account that can (at least) push start.
 
