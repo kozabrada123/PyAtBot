@@ -9,9 +9,10 @@ chardet==4.0.0
 click==8.1.2
 colorama==0.4.4
 cryptography==36.0.2
-discord==1.7.3
-discord.py==1.7.3
+discord==2.1.0
+discord.py==2.1.0
 dnspython==2.2.1
+dotenv==0.0.5
 h11==0.13.0
 idna==3.3
 mcstatus==9.0.4

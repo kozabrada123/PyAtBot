@@ -4,12 +4,14 @@ import atapi
 
 def server_info_embed():
 
-    text = f"**Ip:** {atapi.get_ip()} \n" \
-           f"**Status:** {atapi.get_status()} \n" \
-           f"**Number of players:** {len(atapi.get_players())} \n" \
-           f"**Player list:** {str(atapi.get_players()).replace('[', '').replace(']', '')} \n" \
-           f"**Software:** {atapi.get_software()} \n"\
-           f"**Version:** {atapi.get_version()} \n" \
+    text = f"Ip: {atapi.get_ip()}\n" \
+           f"Status: **{atapi.get_status()}** \n" \
+           f"Number of players: {atapi.get_players_num()} \n" \
+           f"Player list: {str(atapi.get_players()).replace('[', '').replace(']', '')} \n" \
+           f"Tps: {atapi.get_tps()} \n"\
+           f"RAM: {atapi.get_ram()} \n"\
+           f"Software: {atapi.get_software()} \n"\
+           f"Version: {atapi.get_version()} \n" \
 
     embed = Embed()
     embed.add_field(name="Info for " + atapi.get_ip(), value=text, inline=False)

@@ -1,16 +1,13 @@
 import undetected_chromedriver as webdriver
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
-#General required settings
-
-Token = ****
-Username = ****
-Password =  ****
-
-#Discord settings
-prefix = "at."
-description = ""
-
+TOKEN = str(os.getenv('TOKEN'))
+USERNAME = str(os.getenv('USERNAME'))
+PASSWORD = str(os.getenv('PASSWORD'))
+GUILDID = int(os.getenv('GUILDID'))
 
 #Webdriver options
 woptions = webdriver.ChromeOptions()
@@ -25,7 +22,3 @@ woptions.add_argument('--disable-gpu')
 woptions.add_argument('--no-sandbox')
 woptions.add_argument("--disable-dev-shm-usage")
 woptions.add_argument("--blink-settings=imagesEnabled=false")
-
-#Headless
-#woptions.add_argument("--headless")
-#woptions.add_argument("--disable-gpu")

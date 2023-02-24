@@ -1,90 +1,91 @@
 import Settings
 import atapi
+import os
 from embeds import server_info_embed, help_embed
 
 import datetime
 import time
 
 import discord
+from discord import app_commands
+from discord.ext import tasks
 import colorama
-from discord.ext import tasks, commands
 
-
-
-bot = discord.ext.commands.Bot(command_prefix=Settings.prefix,
-                               description=Settings.description,
-                               case_insensitive=True,
-                               help_command=None)
-
+intents = discord.Intents.default()
+bot = discord.Client(intents=intents)
+tree = app_commands.CommandTree(bot)
 
 @bot.event
 async def on_ready():
     print_out("Starting..", colorama.Fore.MAGENTA)
     status = "Starting.."
 
+    await tree.sync(guild=discord.Object(id=Settings.GUILDID))
     await bot.change_presence(activity=discord.Activity(name=status,type=discord.ActivityType.watching))
 
     atapi.connect_account()
 
-    # Wait just to be sure
-    time.sleep(3)
-
-    # Start both tasks
     keepAlive.start()
     updateStatus.start()
 
-
-@bot.command()
+@tree.command(name="launch", description="Starts the server", guild=discord.Object(id=Settings.GUILDID))
 async def launch(ctx):
     status = atapi.get_status()
 
     if status == "Offline":
-        await ctx.send("Starting the server...")
+        await ctx.response.send_message("Starting the server...")
         atapi.start_server()
 
-        author = ctx.author
-
         print("[" + datetime.datetime.now().strftime(
-            "%H:%M:%S") + "]" + colorama.Fore.GREEN + " Server launched by " + colorama.Fore.CYAN + author.name,
-              author.discriminator + colorama.Style.RESET_ALL)
+            "%H:%M:%S") + "]" + colorama.Fore.GREEN + " Server launched!" + colorama.Style.RESET_ALL)
 
         while True:
-            time.sleep(5)
             if atapi.get_status() == "Online":
-                await ctx.send(f"{author.mention}, the server has started!")
+                await ctx.response.send_message(f"The server has started!")
                 break
 
 
     elif atapi.get_status() == "Online":
-        await ctx.send("The server is already online.")
+        await ctx.response.send_message("The server is already online.")
 
     else:
-        await ctx.send("Could not start the server. Reason: server is " + atapi.get_status())
+        await ctx.response.send_message("Could not start the server. Reason: server is " + atapi.get_status())
 
 
-@bot.command()
+@tree.command(name="status", description="Prints the server status", guild=discord.Object(id=Settings.GUILDID))
 async def status(ctx):
-    await ctx.send(embed=server_info_embed())
+    await ctx.response.send_message(embed=server_info_embed())
 
 
-@bot.command()
-async def helpcommand(ctx):
-    await ctx.send(embed=help_embed())
+#async def helpcommand(ctx):
+#    await ctx.send(embed=help_embed())
 
 
 # T A S K S
 
-@tasks.loop(seconds=30.0)
+@tasks.loop(seconds=10.0)
 async def updateStatus():
-    server_status = atapi.get_status()
+
+    try:
+        server_status = atapi.get_status()
+    except:
+        return;
+
     if server_status == "Online":
-        text = f"| Online | " \
-               f"{len(atapi.get_players())} | " \
-               f"at.help"
+
+        players_num = atapi.get_players_num()
+
+        if players_num == 0:
+
+            text = f"| Online | " \
+                   f"{atapi.get_time_left()} left | " \
+
+        else:
+            text = f"| Online | " \
+                   f"{atapi.get_players_num()} | " \
 
     else:
         text = f"| {atapi.get_status()} | " \
-               f"at.help"
 
     activity = discord.Activity(type=discord.ActivityType.watching, name=text)
     await bot.change_presence(activity=activity)
@@ -92,7 +93,7 @@ async def updateStatus():
 
 @tasks.loop(minutes=30)
 async def keepAlive():
-    atapi.refreshBrowser()
+    atapi.refresh_browser()
 
 
 def print_out(out, color):
@@ -101,4 +102,4 @@ def print_out(out, color):
 
 
 # Run the bot
-bot.run(Settings.Token)
+bot.run(Settings.TOKEN)
