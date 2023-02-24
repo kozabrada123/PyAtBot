@@ -21,8 +21,8 @@ A Discord Bot that can manage an Aternos serverr.
 
   - [Prerequisites](#prerequisites)
   - [Getting Started](#getting-started)
-    - [Running on a normal computer](../../wiki/Windows---Mac---Linux-(x64)-Setup)
-    - [Raspberry Pi and arm usage](../../wiki/RPI---Arm-setup)
+    - [Running on a normal computer](../../wiki/Windows-Mac-Linux-(x64)-Setup)
+    - [Raspberry Pi and arm usage](../../wiki/RPI-Arm-setup)
   - [Usage](#usage)
   - [Acknowledgments](#acknowledgments)
 
