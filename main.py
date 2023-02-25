@@ -26,10 +26,10 @@ async def on_ready():
     atapi.connect_account()
 
     keepAlive.start()
-    updateStatus.start()
+    updateStatus. start()
 
-@tree.command(name="launch", description="Starts the server", guild=discord.Object(id=Settings.GUILDID))
-async def launch(ctx):
+@tree.command(name="start", description="Starts the server", guild=discord.Object(id=Settings.GUILDID))
+async def start(ctx):
     status = atapi.get_status()
 
     if status == "Offline":
@@ -41,7 +41,7 @@ async def launch(ctx):
 
         while True:
             if atapi.get_status() == "Online":
-                await ctx.response.send_message(f"The server has started!")
+                await ctx.channel.send("The server has started!")
                 break
 
 

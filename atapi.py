@@ -6,6 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import Settings
+import time
 
 import colorama
 
@@ -88,15 +89,18 @@ def get_players():
     except:
         return []
 
-def get_players_num():
+def get_players_num() -> int:
     num = _find_on_page(classname="js-players", xpath='/html/body/div[2]/main/section/div[3]/div[4]/div[3]/div[1]/div[1]/div[2]/div[2]')
+
+    if num == "ERR":
+        return 0;
 
     num = num.split("/")[0]
     num = int(num)
 
     return num
 
-def get_time_left():
+def get_time_left() -> str:
     wait = WebDriverWait(driver, 15)
     time_left = 'Unknown'
 
@@ -110,7 +114,20 @@ def get_time_left():
 
     return time_left
 
-def get_status():
+def get_discord_timestamp_from_time_left(timeleft: str) -> str:
+    timesplit = timeleft.split(":")
+    minutes = int(timesplit[0])
+    seconds = int(timesplit[1])
+
+    timerseconds = minutes * 60 + seconds
+    timerms = timerseconds * 1000
+
+    mstonow = int(time.time())
+    mswhenclose = mstonow + timerseconds
+
+    return f"<t:{mswhenclose}:R>"
+
+def get_status() -> str:
     wait = WebDriverWait(driver, 15)
     status = ''
 
@@ -129,7 +146,7 @@ def get_status():
         status = "ERR.STS"
     return status
 
-def get_ip():
+def get_ip() -> str:
     ip = _find_on_page(classname="server-ip", xpath='/html/body/div[2]/main/section/div[3]/div[1]')
 
     if ip == "ERR":
@@ -140,17 +157,17 @@ def get_ip():
 
     return ip
 
-def get_software():
+def get_software() -> str:
     return _find_on_page(id="software", xpath='//*[@id="software"]')
 
-def get_version():
+def get_version() -> str:
     return _find_on_page(id="version", xpath='//*[@id="version"]')
 
-def get_tps():
+def get_tps() -> int:
     tps = _find_on_page(classname="js-tps", xpath='//*[@id="read-our-tos"]/main/section/div[3]/div[4]/div[3]/div[1]/div[3]/div[2]/div[2]', errval=0)
     return int(tps)
 
-def get_ram():
+def get_ram() -> str:
     ram = _find_on_page(classname="js-ram", xpath='//*[@id="read-our-tos"]/main/section/div[3]/div[4]/div[3]/div[1]/div[2]/div[2]/div[2]', errval=0)
     return ram
 
@@ -163,7 +180,7 @@ def print_out(out, color):
     print("")
     print("[" + datetime.datetime.now().strftime("%H:%M:%S") + "]" + color, out, colorama.Style.RESET_ALL)
 
-def _find_on_page(id=None, classname=None, xpath=None, errval=None):
+def _find_on_page(id=None, classname=None, xpath=None, errval=None) -> str:
     wait = WebDriverWait(driver, 20)
     elementtext = ""
 
